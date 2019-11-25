@@ -18,6 +18,7 @@ import (
 // If you add non-reference types to your configuration struct, be sure to rewrite Clone as a deep
 // copy appropriate for your types.
 type configuration struct {
+	BambooSubdomainAPIKey string
 }
 
 // Clone shallow copies the configuration. Your implementation may require a deep copy if
@@ -25,6 +26,14 @@ type configuration struct {
 func (c *configuration) Clone() *configuration {
 	var clone = *c
 	return &clone
+}
+
+func (c *configuration) isValidConfig() error {
+	if c.BambooSubdomainAPIKey == '' {
+		return fmt.Errorf("Must specify the Bamboo API key")
+	}
+
+	return nil
 }
 
 // getConfiguration retrieves the active configuration under lock, making it safe to use
