@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/mattermost/mattermost-server/plugin"
@@ -12,14 +10,14 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 	// fmt.Fprint(w, "Hello, world!")
 	config := p.getConfiguration()
 
-	// Pick the API key
-	// TODO: Authenticate request with key
-	key := config.BambooSubdomainAPIKey
-
 	if err := config.isValidConfig(); err != nil {
 		http.Error(w, "This plugin is not properly configured.", http.StatusNotImplemented)
 		return
 	}
+
+	// Pick the API key
+	// TODO: Authenticate request with key
+	key := config.BambooSubdomainAPIKey
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -29,26 +27,16 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 
 }
 
-func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter) {
-	config := p.getConfiguration()
-	// ctx := context.Background()
-	response, err := http.Get(buildBambooURL(p.bambooSubdomain))
-	if err != nil {
-		return
-	}
-
-	defer response.Body.Close()
-
-	body, err := ioutil.ReadAll(response.Body)
-
-	if err != nil {
-		return
-	}
-
-	w.Write(body)
+func writeError(w http.ResponseWriter, errMessage string) {
+	w.Write(errMessage)
 }
 
-func buildBambooURL(sd string) string {
-	baseUrl := "https://api.bamboohr.com/api/gateway.php/%s/v1/employees/directory"
-	return fmt.Sprintf(baseUrl, bar)
+func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter) {
+	config := p.getConfiguration()
+	bambooClient := NewClient(nil, p.bambooSubdomain)
+	err := bambooClient.buildEmployeeDirectory(config.BambooSubdomainAPIKey)
+	if err != nil {
+		return
+	}
+	w.Write(bambooClient.Directory)
 }
