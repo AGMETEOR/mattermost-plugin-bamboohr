@@ -1,0 +1,5 @@
+webapp/node_modules/
+.npminstall
+webapp/dist
+webapp/com.mattermost.bamboo/
+webapp/plugin.tar.gz

@@ -1,8 +1,8 @@
 {
-    "id": "com.mattermost.plugin-bamboohr",
-    "name": "mattermost-plugin-bamboohr",
+    "id": "bamboohr",
+    "name": "Bamboohr",
     "description": "Mattermost plugin for Bamboo HR.",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "min_server_version": "5.12.0",
     "server": {
         "executables": {

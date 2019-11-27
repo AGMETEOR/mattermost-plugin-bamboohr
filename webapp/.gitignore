@@ -1,0 +1,5 @@
+node_modules
+.npminstall
+dist
+com.mattermost.bamboo/
+plugin.tar.gz
