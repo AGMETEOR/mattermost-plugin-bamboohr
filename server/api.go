@@ -40,7 +40,7 @@ func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter) {
 	// config := p.getConfiguration()
 	bambooClient := NewClient(nil, p.bambooSubdomain)
 	// directory, err := bambooClient.buildEmployeeDirectory(config.BambooSubdomainAPIKey)
-	directory, err := bambooClient.buildEmployeeDirectory("101915139c16b11e950816e743ae4b1fa96b93e6")
+	directory, err := bambooClient.buildEmployeeDirectory("")
 	if err != nil {
 		writeError(w, err)
 		return
