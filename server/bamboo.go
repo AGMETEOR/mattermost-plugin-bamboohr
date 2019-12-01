@@ -13,21 +13,27 @@ const (
 	employeeDirectoryLink = "/v1/employees/directory"
 )
 
-// type employee struct {
-// 	ID          string `json: "id`
-// 	DisplayName string `json: displayName`
-// 	JobTitle    string `json: jobTitle`
-// 	Location    string `json: location`
-// }
+type Employee struct {
+	ID          string `json:"id"`
+	DisplayName string `json:"displayName"`
+	JobTitle    string `json:"jobTitle"`
+	Location    string `json:"location"`
+}
 
-// type employeeDirectory struct {
-// 	employees []employee
-// }
+type EmployeeField struct {
+	ID   string `json:"id"`
+	Type string `json:"type"`
+	Name string `json:"name"`
+}
+
+type EmployeeDirectoryResult struct {
+	Fields    []EmployeeField `json: "fields"`
+	Employees []Employee      `json: "employees"`
+}
 
 type Client struct {
 	client  *http.Client
 	BaseUrl string
-	// Directory *employeeDirectory
 }
 
 // Takes in your company's bamboo subdomain
@@ -73,26 +79,27 @@ func (c *Client) do(key string, req *http.Request) ([]byte, error) {
 	return body, nil
 }
 
-func (c *Client) buildEmployeeDirectory(key string) error {
+func (c *Client) buildEmployeeDirectory(key string) (*EmployeeDirectoryResult, *APIErrorMessage) {
+	directory := new(EmployeeDirectoryResult)
 	directoryUrl := buildUrlToDirectory(c.BaseUrl, employeeDirectoryLink)
 	req, err := http.NewRequest("GET", directoryUrl, nil)
 
 	if err != nil {
-		return err
+		return nil, &APIErrorMessage{message: "Error making a new request"}
 	}
 	bytes, err := c.do(key, req)
 
 	if err != nil {
-		return err
+		return nil, &APIErrorMessage{message: "Error making the request"}
 	}
 
-	err = json.Unmarshal(bytes, &c.Directory)
+	e := json.Unmarshal(bytes, directory)
 
-	if err != nil {
-		return err
+	if e != nil {
+		return nil, &APIErrorMessage{message: "Error unmarshaling the request"}
 	}
 
-	return nil
+	return directory, nil
 }
 
 func buildBambooURL(subdomain string, baseUrl string) string {

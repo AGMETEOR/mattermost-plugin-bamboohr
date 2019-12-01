@@ -1,5 +1,7 @@
+dist
 webapp/node_modules/
 .npminstall
 webapp/dist
+server/dist
 webapp/com.mattermost.bamboo/
 webapp/plugin.tar.gz

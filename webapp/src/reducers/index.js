@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import ActionTypes from '../actionTypes';
 
-function getEmployees(state = [], action) {
+function employees(state = [], action) {
     switch (action.type) {
         case ActionTypes.RECEIVED_EMPLOYEES:
             return action.data;
@@ -11,5 +11,5 @@ function getEmployees(state = [], action) {
 }
 
 export default combineReducers({
-    getEmployees,
+    employees,
 });

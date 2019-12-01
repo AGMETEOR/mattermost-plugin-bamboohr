@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	plugin.ClientMain(New("testcompany"))
+	plugin.ClientMain(New("matterplug"))
 }

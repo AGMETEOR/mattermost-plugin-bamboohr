@@ -15,13 +15,13 @@ type Plugin struct {
 
 	// configuration is the active plugin configuration. Consult getConfiguration and
 	// setConfiguration for usage.
-	configuration *configuration
+	configuration *Configuration
 
 	bambooSubdomain string
 }
 
 func New(d string) *Plugin {
 	return &Plugin{
-		bambooSubdomain: d
+		bambooSubdomain: d,
 	}
 }
