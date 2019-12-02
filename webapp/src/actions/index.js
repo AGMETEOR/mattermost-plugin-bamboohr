@@ -25,7 +25,7 @@ export function getEmployees() {
 function openModal(modalData) {
     return (dispatch) => {
         const action = {
-            type: "MODAL_OPEN",
+            type: 'MODAL_OPEN',
             modalId: modalData.modalId,
             dialogProps: modalData.dialogProps,
             dialogType: modalData.dialogType,
@@ -44,7 +44,7 @@ export function openBambooModal(elements) {
                 elements,
             },
         };
-    
+
         dispatch(openModal(bambooModalData));
-    }
+    };
 }

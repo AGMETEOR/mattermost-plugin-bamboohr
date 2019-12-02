@@ -27,8 +27,8 @@ type EmployeeField struct {
 }
 
 type EmployeeDirectoryResult struct {
-	Fields    []EmployeeField `json: "fields"`
-	Employees []Employee      `json: "employees"`
+	Fields    []EmployeeField `json:"fields"`
+	Employees []Employee      `json:"employees"`
 }
 
 type Client struct {

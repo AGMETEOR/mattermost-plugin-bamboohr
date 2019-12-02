@@ -8,15 +8,15 @@ class BambooModal extends React.PureComponent {
         getEmployees: PropTypes.func.isRequired,
     };
 
-    componentDidMount(){
-        const { getEmployees } = this.props;
+    componentDidMount() {
+        const {getEmployees} = this.props;
         getEmployees();
     }
 
-    render(){
-        const { show, employees } = this.props;
+    render() {
+        const {show, employees} = this.props;
 
-    const renderEmployees = employees.map(employee => <div>{employee.location}</div>)
+        const renderEmployees = employees.map((employee) => <div>{employee.location}</div>);
         return (
             <Modal
                 dialogClassName='modal--scroll'
@@ -45,7 +45,7 @@ class BambooModal extends React.PureComponent {
                     </Modal.Footer>
                 </form>
             </Modal>
-        )
+        );
     }
 }
 

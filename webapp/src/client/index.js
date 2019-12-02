@@ -1,22 +1,22 @@
 import axios from 'axios';
 
 class Client {
-    constructor(){
+    constructor() {
         this.axiosInstance = axios.create({
-            baseUrl: "/plugins/bamboohr/api/v1"
-        })
+            baseUrl: '/plugins/bamboohr/api/v1',
+        });
     }
 
-    getEmployees = async() => {
-        return this.doGet("/plugins/bamboohr/api/v1/employees")
+    getEmployees = async () => {
+        return this.doGet('/plugins/bamboohr/api/v1/employees');
     }
 
-    doGet = async(url) => {
+    doGet = async (url) => {
         try {
             const response = await this.axiosInstance.get(url);
-            return response.data  
+            return response.data;
         } catch (error) {
-            throw error  
+            throw error;
         }
     }
 }
