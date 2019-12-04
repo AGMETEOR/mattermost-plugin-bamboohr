@@ -15,8 +15,25 @@
         "bundle_path": "webapp/dist/main.js"
     },
     "settings_schema": {
-        "header": "",
-        "footer": "",
-        "settings": []
+        "header": "Mattermost plugin for Bamboo HR.",
+        "settings": [
+            {
+                "key": "BambooDomain",
+                "display_name": "Your BambooHR domain name",
+                "type": "text",
+                "help_text": "Example domain from mattermost.bamboohr.com is 'mattermost'"
+            },
+            {
+                "key": "BambooAPIKey",
+                "display_name": "Your BambooHR API Key",
+                "type": "text",
+                "help_text": "Token that allows to make API calls to BambooHR"
+            },
+            {
+                "key": "BambooAdmins",
+                "display_name": "Comma separated list of user IDs allowed  to run Bamboo commands",
+                "type": "text"
+            }
+        ]
     }
 }

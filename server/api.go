@@ -20,11 +20,12 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 
 	path := r.URL.Path
 
-	if path == "/api/v1/employees" {
-		p.getEmployeesDirectory(w)
-		return
+	switch path {
+	case "/api/v1/employees":
+		p.getEmployeesDirectory(w, r)
+	default:
+		http.NotFound(w, r)
 	}
-	http.NotFound(w, r)
 }
 
 type APIErrorMessage struct {
@@ -36,11 +37,10 @@ func writeError(w http.ResponseWriter, errMessage *APIErrorMessage) {
 	w.Write(errBytes)
 }
 
-func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter) {
-	// config := p.getConfiguration()
-	bambooClient := NewClient(nil, p.bambooSubdomain)
-	// directory, err := bambooClient.buildEmployeeDirectory(config.BambooSubdomainAPIKey)
-	directory, err := bambooClient.buildEmployeeDirectory("")
+func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter, r *http.Request) {
+	pluginConfig := p.getConfiguration()
+	bambooClient := NewClient(nil, pluginConfig.BambooDomain)
+	directory, _, err := bambooClient.buildEmployeeDirectory(pluginConfig.BambooAPIKey)
 	if err != nil {
 		writeError(w, err)
 		return

@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"reflect"
 
 	"github.com/pkg/errors"
 )
 
-// configuration captures the plugin's external configuration as exposed in the Mattermost server
+// Configuration captures the plugin's external configuration as exposed in the Mattermost server
 // configuration, as well as values computed from the configuration. Any public fields will be
 // deserialized from the Mattermost server configuration in OnConfigurationChange.
 //
@@ -19,7 +18,9 @@ import (
 // If you add non-reference types to your configuration struct, be sure to rewrite Clone as a deep
 // copy appropriate for your types.
 type Configuration struct {
-	BambooSubdomainAPIKey string
+	BambooDomain string
+	BambooAPIKey string
+	BambooAdmins string
 }
 
 // Clone shallow copies the configuration. Your implementation may require a deep copy if
@@ -27,14 +28,6 @@ type Configuration struct {
 func (c *Configuration) Clone() *Configuration {
 	var clone = *c
 	return &clone
-}
-
-func (c *Configuration) isValidConfig() error {
-	if c.BambooSubdomainAPIKey == "" {
-		return fmt.Errorf("Must specify the Bamboo API key")
-	}
-
-	return nil
 }
 
 // getConfiguration retrieves the active configuration under lock, making it safe to use

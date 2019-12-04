@@ -52,7 +52,7 @@ func NewClient(httpClient *http.Client, subdomain string) *Client {
 	return c
 }
 
-func (c *Client) do(key string, req *http.Request) ([]byte, error) {
+func (c *Client) do(key string, req *http.Request) ([]byte, int, error) {
 	req.SetBasicAuth(key, "")
 	req.Header.Set("Accept", "application/json")
 
@@ -60,8 +60,10 @@ func (c *Client) do(key string, req *http.Request) ([]byte, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 
+	statusCode := resp.StatusCode
+
 	if err != nil {
-		return nil, err
+		return nil, statusCode, err
 	}
 
 	defer resp.Body.Close()
@@ -69,37 +71,37 @@ func (c *Client) do(key string, req *http.Request) ([]byte, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	if 200 != resp.StatusCode {
-		return nil, fmt.Errorf("%s", body)
+	if 200 != statusCode {
+		return nil, statusCode, fmt.Errorf("%s", body)
 	}
 
-	return body, nil
+	return body, statusCode, nil
 }
 
-func (c *Client) buildEmployeeDirectory(key string) (*EmployeeDirectoryResult, *APIErrorMessage) {
+func (c *Client) buildEmployeeDirectory(key string) (*EmployeeDirectoryResult, int, *APIErrorMessage) {
 	directory := new(EmployeeDirectoryResult)
 	directoryUrl := buildUrlToDirectory(c.BaseUrl, employeeDirectoryLink)
 	req, err := http.NewRequest("GET", directoryUrl, nil)
 
 	if err != nil {
-		return nil, &APIErrorMessage{message: "Error making a new request"}
+		return nil, 0, &APIErrorMessage{message: "Error making a new request"}
 	}
-	bytes, err := c.do(key, req)
+	bytes, statusCode, err := c.do(key, req)
 
 	if err != nil {
-		return nil, &APIErrorMessage{message: "Error making the request"}
+		return nil, 0, &APIErrorMessage{message: "Error making the request"}
 	}
 
 	e := json.Unmarshal(bytes, directory)
 
 	if e != nil {
-		return nil, &APIErrorMessage{message: "Error unmarshaling the request"}
+		return nil, 0, &APIErrorMessage{message: "Error unmarshaling the request"}
 	}
 
-	return directory, nil
+	return directory, statusCode, nil
 }
 
 func buildBambooURL(subdomain string, baseUrl string) string {
