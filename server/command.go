@@ -8,7 +8,9 @@ import (
 	"github.com/mattermost/mattermost-server/plugin"
 )
 
-const COMMAND_HELP = `* |/bamboo test| - Run 'test' to see if you're configured to run bamboo commands`
+const COMMAND_HELP = `* |/bamboo test| - Run 'test' to see if you're configured to run bamboo commands
+* |/bamboo help| - Run 'help' to see a list of commands available for you
+`
 
 func getCommand() *model.Command {
 	return &model.Command{
@@ -66,8 +68,6 @@ func (p *Plugin) testCommandFunc(args *model.CommandArgs) (*model.CommandRespons
 		return p.responsef(args, "SiteURL not set. Encountered an error testing integration to BambooHR."), nil
 	}
 
-	// token := serverConfig.ServiceSettings.BambooToken
-	// domain := serverConfig.ServiceSettings.BambooDomain
 	token := pluginConfig.BambooAPIKey
 	domain := pluginConfig.BambooDomain
 
@@ -75,7 +75,7 @@ func (p *Plugin) testCommandFunc(args *model.CommandArgs) (*model.CommandRespons
 		return p.responsef(args, "Bamboo configuration for your server is not set."), nil
 	}
 
-	if !p.checkUser(args.UserId) {
+	if !p.isUserAuthorized(args.UserId) {
 		return p.responsef(args, "You will not be authorized to run Bamboo commands."), nil
 	}
 

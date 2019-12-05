@@ -1,12 +1,14 @@
 package main
 
 import (
+	"path/filepath"
 	"strings"
 	"sync"
 
 	"github.com/mattermost/mattermost-server/model"
-	"github.com/mattermost/mattermost-server/plugin"
 	"github.com/pkg/errors"
+
+	"github.com/mattermost/mattermost-server/plugin"
 )
 
 // Plugin implements the interface expected by the Mattermost server to communicate between the server and plugin processes.
@@ -26,19 +28,23 @@ type Plugin struct {
 func (p *Plugin) OnActivate() error {
 	p.API.RegisterCommand(getCommand())
 
+	profileImage := filepath.Join("assets", "bamboo.png")
+
 	botId, err := p.Helpers.EnsureBot(&model.Bot{
 		Username:    "bamboo",
 		DisplayName: "Bamboo",
 		Description: "Created by the BambooHR plugin.",
-	})
+	}, plugin.ProfileImagePath(profileImage))
+
 	if err != nil {
 		return errors.Wrap(err, "failed to ensure bamboo bot")
 	}
 	p.BotUserID = botId
+
 	return nil
 }
 
-func (p *Plugin) checkUser(id string) bool {
+func (p *Plugin) isUserAuthorized(id string) bool {
 	pluginConfig := p.getConfiguration()
 	adminsList := pluginConfig.BambooAdmins
 	allowedBambooAdmins := strings.Split(adminsList, ",")

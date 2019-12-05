@@ -9,13 +9,6 @@ import (
 )
 
 func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
-	// config := p.getConfiguration()
-
-	// if err := config.isValidConfig(); err != nil {
-	// 	http.Error(w, "This plugin is not properly configured.", http.StatusNotImplemented)
-	// 	return
-	// }
-
 	w.Header().Set("Content-Type", "application/json")
 
 	path := r.URL.Path
