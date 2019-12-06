@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
 
 class BambooModal extends React.PureComponent {
@@ -16,7 +17,7 @@ class BambooModal extends React.PureComponent {
     render() {
         const {show, employees} = this.props;
 
-        const renderEmployees = employees.map((employee) => <div>{employee.location}</div>);
+        const renderEmployees = employees.map((employee) => <div key={employee.location}>{employee.location}</div>);
         return (
             <Modal
                 dialogClassName='modal--scroll'
@@ -41,7 +42,7 @@ class BambooModal extends React.PureComponent {
                         {renderEmployees}
                     </Modal.Body>
                     <Modal.Footer>
-                        Footer
+                        {'Footer'}
                     </Modal.Footer>
                 </form>
             </Modal>

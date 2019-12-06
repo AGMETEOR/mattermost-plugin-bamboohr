@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "github.com/LenzEducation/lenz-server/config"
 	"encoding/json"
 	"net/http"
 
