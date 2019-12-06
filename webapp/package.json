@@ -1,7 +1,7 @@
 {
-  "name": "webapp",
-  "version": "0.0.1",
-  "description": "This plugin serves as a starting point for writing a Mattermost plugin.",
+  "name": "bamboohr",
+  "version": "1.0.0",
+  "description": "The BambooHR plugin.",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --mode=production",
@@ -28,10 +28,10 @@
     "babel-eslint": "^10.0.2",
     "babel-loader": "8.0.6",
     "babel-plugin-typescript-to-proptypes": "0.17.1",
-    "eslint": "6.0.1",
+    "eslint": "^6.7.2",
     "eslint-import-resolver-webpack": "0.11.1",
     "eslint-plugin-import": "2.18.0",
-    "eslint-plugin-react": "7.14.2",
+    "eslint-plugin-react": "^7.17.0",
     "file-loader": "4.0.0",
     "jest": "^24.8.0",
     "webpack": "4.35.0",
@@ -48,9 +48,11 @@
     "@typescript-eslint/parser": "1.13.0",
     "axios": "^0.19.0",
     "react": "16.8.6",
-    "react-bootstrap": "^1.0.0-beta.16",
     "react-redux": "5.0.7",
     "redux": "4.0.1",
     "typescript": "3.5.3"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }

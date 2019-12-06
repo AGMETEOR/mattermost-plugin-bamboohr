@@ -7,3 +7,10 @@ For a company that has chosen to use both Mattermost and Bamboo HR, this plugin 
 The idea is to either provide a bot or a button in the channel header where users could click and get this information in the modal. The idea is not yet fully formed :)
 
 Contributions are welcome!
+
+## Quick Development setup at the moment
+Fork this repo.
+Clone your fork and make changes on your branch.
+Run ```make``` at the root of this project
+Install the generated tar on your server to see your changes
+
