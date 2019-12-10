@@ -80,8 +80,9 @@ func (p *Plugin) testCommandFunc(args *model.CommandArgs) (*model.CommandRespons
 	}
 
 	// Verify that configured Bamboo token works
-	bambooClient := NewClient(nil, domain)
-	_, statusCode, _ := bambooClient.buildEmployeeDirectory(token)
+	bambooClient := p.getClient(domain)
+	dURL := buildUrlToDirectory(bambooClient.BaseUrl, employeeDirectoryLink)
+	_, statusCode, _ := bambooClient.buildEmployeeDirectory(token, dURL)
 
 	if statusCode == 200 {
 		return p.responsef(args, "Congratulations! Bamboo is correctly configured on your server."), nil

@@ -8,8 +8,6 @@ import (
 )
 
 const (
-	baseUrl               = "https://api.bamboohr.com/api/gateway.php/%s"
-	apiVersion            = "v1"
 	employeeDirectoryLink = "/v1/employees/directory"
 )
 
@@ -36,29 +34,11 @@ type Client struct {
 	BaseUrl string
 }
 
-// Takes in your company's bamboo subdomain
-func NewClient(httpClient *http.Client, subdomain string) *Client {
-	if httpClient == nil {
-		httpClient = &http.Client{}
-	}
-
-	builtBambooUrl := buildBambooURL(subdomain, baseUrl)
-
-	c := &Client{
-		client:  httpClient,
-		BaseUrl: builtBambooUrl,
-	}
-
-	return c
-}
-
 func (c *Client) do(key string, req *http.Request) ([]byte, int, error) {
 	req.SetBasicAuth(key, "")
 	req.Header.Set("Accept", "application/json")
 
-	// Might not be necessary
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := c.client.Do(req)
 
 	statusCode := resp.StatusCode
 
@@ -81,9 +61,9 @@ func (c *Client) do(key string, req *http.Request) ([]byte, int, error) {
 	return body, statusCode, nil
 }
 
-func (c *Client) buildEmployeeDirectory(key string) (*EmployeeDirectoryResult, int, *APIErrorMessage) {
+func (c *Client) buildEmployeeDirectory(key string, directoryUrl string) (*EmployeeDirectoryResult, int, *APIErrorMessage) {
 	directory := new(EmployeeDirectoryResult)
-	directoryUrl := buildUrlToDirectory(c.BaseUrl, employeeDirectoryLink)
+
 	req, err := http.NewRequest("GET", directoryUrl, nil)
 
 	if err != nil {
@@ -92,13 +72,13 @@ func (c *Client) buildEmployeeDirectory(key string) (*EmployeeDirectoryResult, i
 	bytes, statusCode, err := c.do(key, req)
 
 	if err != nil {
-		return nil, 0, &APIErrorMessage{message: "Error making the request"}
+		return nil, statusCode, &APIErrorMessage{message: "Error making the request"}
 	}
 
 	e := json.Unmarshal(bytes, directory)
 
 	if e != nil {
-		return nil, 0, &APIErrorMessage{message: "Error unmarshaling the request"}
+		return nil, statusCode, &APIErrorMessage{message: "Error unmarshaling the request"}
 	}
 
 	return directory, statusCode, nil

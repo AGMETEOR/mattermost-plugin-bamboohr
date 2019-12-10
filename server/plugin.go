@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -23,6 +24,21 @@ type Plugin struct {
 	configuration *Configuration
 
 	BotUserID string
+
+	BambooBaseURL string
+}
+
+func (p *Plugin) getClient(subdomain string) *Client {
+	httpClient := &http.Client{}
+
+	builtBambooUrl := buildBambooURL(subdomain, p.BambooBaseURL)
+
+	c := &Client{
+		client:  httpClient,
+		BaseUrl: builtBambooUrl,
+	}
+
+	return c
 }
 
 func (p *Plugin) OnActivate() error {
@@ -40,6 +56,7 @@ func (p *Plugin) OnActivate() error {
 		return errors.Wrap(err, "failed to ensure bamboo bot")
 	}
 	p.BotUserID = botId
+	p.BambooBaseURL = "https://api.bamboohr.com/api/gateway.php/%s"
 
 	return nil
 }
