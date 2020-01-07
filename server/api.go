@@ -31,8 +31,9 @@ func writeError(w http.ResponseWriter, errMessage *APIErrorMessage) {
 
 func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter, r *http.Request) {
 	pluginConfig := p.getConfiguration()
-	bambooClient := NewClient(nil, pluginConfig.BambooDomain)
-	directory, _, err := bambooClient.buildEmployeeDirectory(pluginConfig.BambooAPIKey)
+	bambooClient := p.getClient(pluginConfig.BambooDomain)
+	dURL := buildUrlToEndpoint(bambooClient.BaseUrl, employeeDirectoryLink)
+	directory, _, err := bambooClient.buildEmployeeDirectory(pluginConfig.BambooAPIKey, dURL)
 	if err != nil {
 		writeError(w, err)
 		return

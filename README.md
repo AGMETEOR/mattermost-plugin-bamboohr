@@ -1,16 +1,26 @@
-# (WIP) Bamboo HR plugin for Mattermost
+# (WIP) Mattermost BambooHR Plugin
 
-Bamboo HR is a software platform for companies to manage their human resources (HR).
+[Bamboo HR](https://www.bamboohr.com/) is a software platform for companies to manage their human resources (HR).
 
-For a company that has chosen to use both Mattermost and Bamboo HR, this plugin would aim to integrate the two. The plugin would provide users (from Mattermost) with important information about employees in the company. Without leaving Mattermost, a user can view HR information, see new people who joined, employees who have left, etc.
-
-The idea is to either provide a bot or a button in the channel header where users could click and get this information in the modal. The idea is not yet fully formed :)
+This plugin is meant to be used by users/companies using both [Mattermost](https://www.mattermost.org/) for their chat and BambooHR for human resource related issues.
 
 Contributions are welcome!
 
-## Quick Development setup at the moment
-Fork this repo.
-Clone your fork and make changes on your branch.
-Run ```make``` at the root of this project
-Install the generated tar on your server to see your changes
+## Table of Contents
+- [1. Features](#1-features)
+- [2. Configuration](#2-configuration)
+- [3. Development](#3-development)
+
+## 1. Features
+### 1.1 Create an employee on BambooHR using an existing Mattermost user
+If a system admin has added a new Mattermost account for an employee, an authorized user can use ```/bamboo add``` from the DM channel to add that user to BambooHR.
+
+## 2. Configuration
+Configure the plugin in Mattermost by going to ```System Console > Plugins > Bamboohr```. Enable the plugin if it's not enabled. Set your BambooHR domain name, your BambooHR API Key and a list of comma separated Mattermost user IDs that'll be allowed to run some crucial bamboo plugin commands.
+
+## 3. Development
+- Fork this repo
+- Clone your fork and make changes on your branch
+- Run ```$ make``` at the root of this project
+- Install the generated tar on your server to see your changes
 
