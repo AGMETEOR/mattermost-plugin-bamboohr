@@ -17,7 +17,7 @@ type TestConfiguration struct {
 	BambooAdmins string
 }
 
-func TestExecuteCommand(t *testing.T){
+func TestExecuteCommand(t *testing.T) {
 	t.Run("test for test command", func(t *testing.T) {
 		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
@@ -34,10 +34,10 @@ func TestExecuteCommand(t *testing.T){
 			BambooAPIKey: "APIKEY",
 			BambooAdmins: "id1, id2",
 		})
-		
+
 		commandArgs := &model.CommandArgs{
-			Command:   "/bamboo test",
-			UserId: "id1",
+			Command: "/bamboo test",
+			UserId:  "id1",
 		}
 
 		isSendEphemeralPostCalled := false

@@ -22,6 +22,18 @@ export function getEmployees() {
     };
 }
 
+export function createEmployee(userData) {
+    return async () => {
+        let data;
+        try {
+            data = await Client.createEmployee(userData);
+        } catch (error) {
+            return {error};
+        }
+        return data;
+    };
+}
+
 function openModal(modalData) {
     return (dispatch) => {
         const action = {

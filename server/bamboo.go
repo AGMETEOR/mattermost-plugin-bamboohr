@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -9,13 +10,17 @@ import (
 
 const (
 	employeeDirectoryLink = "/v1/employees/directory"
+	createEmployeeLink    = "/v1/employees/"
 )
 
 type Employee struct {
-	ID          string `json:"id"`
-	DisplayName string `json:"displayName"`
-	JobTitle    string `json:"jobTitle"`
-	Location    string `json:"location"`
+	ID             string `json:"id"`
+	EmployeeNumber string `json:"employeeNumber"`
+	FirstName      string `json:"firstName"`
+	LastName       string `json:"lastName"`
+	DisplayName    string `json:"displayName"`
+	JobTitle       string `json:"jobTitle"`
+	Location       string `json:"location"`
 }
 
 type EmployeeField struct {
@@ -37,6 +42,7 @@ type Client struct {
 func (c *Client) do(key string, req *http.Request) ([]byte, int, error) {
 	req.SetBasicAuth(key, "")
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := c.client.Do(req)
 
@@ -84,10 +90,38 @@ func (c *Client) buildEmployeeDirectory(key string, directoryUrl string) (*Emplo
 	return directory, statusCode, nil
 }
 
+func (c *Client) addNewEmployee(key string, createURL string, employee *Employee) (*Employee, *APIErrorMessage) {
+	employeeData := new(Employee)
+
+	jsonData, _ := json.Marshal(employee)
+
+	req, err := http.NewRequest("POST", createURL, bytes.NewBuffer(jsonData))
+
+	if err != nil {
+		return nil, &APIErrorMessage{message: "Error making a new request"}
+	}
+
+	bytes, _, err := c.do(key, req)
+
+	if err != nil {
+		fmt.Println("ERROR REQ", err)
+		return nil, &APIErrorMessage{message: "Error making the request"}
+	}
+
+	e := json.Unmarshal(bytes, employeeData)
+
+	if e != nil {
+		return nil, &APIErrorMessage{message: "Error unmarshaling the request"}
+	}
+
+	return employeeData, nil
+
+}
+
 func buildBambooURL(subdomain string, baseUrl string) string {
 	return fmt.Sprintf(baseUrl, subdomain)
 }
 
-func buildUrlToDirectory(b string, d string) string {
+func buildUrlToEndpoint(b string, d string) string {
 	return b + d
 }
