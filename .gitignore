@@ -5,3 +5,4 @@ webapp/dist
 server/dist
 webapp/com.mattermost.bamboo/
 webapp/plugin.tar.gz
+.idea/

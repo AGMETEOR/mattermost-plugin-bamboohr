@@ -1,6 +1,7 @@
 import {id as pluginId} from './manifest';
 import reducer from './reducers';
 import Icon from './components/icon';
+import BambooAction from './components/bamboo_action';
 import {openBambooModal} from './actions';
 
 export default class Plugin {
@@ -12,6 +13,7 @@ export default class Plugin {
             () => store.dispatch(openBambooModal()),
             Icon,
         );
+        registry.registerPopoverUserActionsComponent(BambooAction);
     }
 }
 
