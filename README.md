@@ -1,4 +1,5 @@
 # (WIP) Mattermost BambooHR Plugin
+[![CircleCI](https://circleci.com/gh/AGMETEOR/mattermost-plugin-bamboohr.svg?style=svg)](https://circleci.com/gh/AGMETEOR/mattermost-plugin-bamboohr)
 
 [Bamboo HR](https://www.bamboohr.com/) is a software platform for companies to manage their human resources (HR).
 
