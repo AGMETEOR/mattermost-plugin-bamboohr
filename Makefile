@@ -4,7 +4,7 @@ CURL ?= $(shell command -v curl 2> /dev/null)
 MANIFEST_FILE ?= plugin.json
 MM_UTILITIES_DIR ?= ../mattermost-utilities
 
-# export GO111MODULE=on
+export GO111MODULE=on
 
 # You can include assets this directory into the bundle. This can be e.g. used to include profile pictures.
 ASSETS_DIR ?= assets
@@ -28,9 +28,9 @@ apply:
 check-style: webapp/.npminstall gofmt
 	@echo Checking for style guide compliance
 
-# ifneq ($(HAS_WEBAPP),)
-# 	cd webapp && npm run lint
-# endif
+ifneq ($(HAS_WEBAPP),)
+	cd webapp && npm run lint
+endif
 
 ## Runs gofmt against all packages.
 .PHONY: gofmt
@@ -142,9 +142,9 @@ ifneq ($(HAS_SERVER),)
 	$(GO) test -race -v ./server/...
 endif
 
-# ifneq ($(HAS_WEBAPP),)
-# 	cd webapp && $(NPM) run fix;
-# endif
+ifneq ($(HAS_WEBAPP),)
+	cd webapp && $(NPM) run fix;
+endif
 
 ## Creates a coverage report for the server code.
 .PHONY: coverage

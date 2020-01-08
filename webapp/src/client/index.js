@@ -32,7 +32,6 @@ class Client {
         } catch (error) {
             throw error;
         }
-
     }
 }
 
