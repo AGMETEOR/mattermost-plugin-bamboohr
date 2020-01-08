@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -84,7 +85,9 @@ func (p *Plugin) testCommandFunc(args *model.CommandArgs) (*model.CommandRespons
 	// Verify that configured Bamboo token works
 	bambooClient := p.getClient(domain)
 	dURL := buildUrlToEndpoint(bambooClient.BaseUrl, employeeDirectoryLink)
-	_, statusCode, _ := bambooClient.buildEmployeeDirectory(token, dURL)
+
+	ctx := context.Background()
+	_, statusCode, _ := bambooClient.EmployeeService.BuildEmployeeDirectory(ctx, token, dURL)
 
 	if statusCode == 200 {
 		return p.responsef(args, "Congratulations! Bamboo is correctly configured on your server."), nil
@@ -146,7 +149,8 @@ func (p *Plugin) createEmployeeCommandFunc(args *model.CommandArgs) (*model.Comm
 		LastName:       employee.LastName,
 	}
 
-	_, err := bambooClient.addNewEmployee(token, empURL, data)
+	ctx := context.Background()
+	_, err := bambooClient.EmployeeService.AddNewEmployee(ctx, token, empURL, data)
 
 	if err != nil {
 		return p.responsef(args, "Failed to add this employee"), nil

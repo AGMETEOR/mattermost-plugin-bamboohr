@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -33,7 +34,9 @@ func (p *Plugin) getEmployeesDirectory(w http.ResponseWriter, r *http.Request) {
 	pluginConfig := p.getConfiguration()
 	bambooClient := p.getClient(pluginConfig.BambooDomain)
 	dURL := buildUrlToEndpoint(bambooClient.BaseUrl, employeeDirectoryLink)
-	directory, _, err := bambooClient.buildEmployeeDirectory(pluginConfig.BambooAPIKey, dURL)
+
+	ctx := context.Background()
+	directory, _, err := bambooClient.EmployeeService.BuildEmployeeDirectory(ctx, pluginConfig.BambooAPIKey, dURL)
 	if err != nil {
 		writeError(w, err)
 		return
