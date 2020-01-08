@@ -9,7 +9,7 @@ class BambooAction extends React.PureComponent {
     };
 
     render() {
-        const { user, createEmployee} = this.props;
+        const {user, createEmployee} = this.props;
         // eslint-disable-next-line camelcase
         const {first_name, last_name} = user;
         return (

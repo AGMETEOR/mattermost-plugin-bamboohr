@@ -3,9 +3,9 @@ package main
 import (
 	"testing"
 
-	"github.com/mattermost/mattermost-server/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost-server/v5/plugin/plugintest/mock"
 
-	"github.com/mattermost/mattermost-server/plugin/plugintest"
+	"github.com/mattermost/mattermost-server/v5/plugin/plugintest"
 )
 
 func TestPlugin(t *testing.T) {
