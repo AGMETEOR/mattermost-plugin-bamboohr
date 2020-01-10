@@ -11,6 +11,7 @@ import (
 
 const COMMAND_HELP = `* |/bamboo test| - Run 'test' to see if you're configured to run bamboo commands
 * |/bamboo help| - Run 'help' to see a list of commands available for you
+* |/bamboo add| - Run 'add' while in a DM channel to create an account for that Mattermost on Bamboo
 `
 
 func getCommand() *model.Command {
