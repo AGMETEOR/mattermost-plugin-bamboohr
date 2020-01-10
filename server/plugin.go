@@ -38,6 +38,9 @@ func (p *Plugin) getClient(subdomain string) *Client {
 		BaseUrl: builtBambooUrl,
 	}
 
+	c.common.client = c
+	c.EmployeeService = (*EmployeeService)(&c.common)
+
 	return c
 }
 
